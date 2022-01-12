@@ -69,6 +69,10 @@ for item in products['availabilities']:
         quantity = item['buyingOption']['cashCarry']['availability']['quantity']
     except: 
         quantity = 'N/A'
+    try: 
+        class_unit_code = item['classUnitKey']['classUnitCode']
+    except: 
+        class_unit_code = 'N/A'
     try:
         stock_amount = item['buyingOption']['cashCarry']['availability']['probability']['thisDay']['messageType']
     except:
@@ -83,6 +87,7 @@ for item in products['availabilities']:
 
     product = {
         'quantity': quantity, 
+        'class_unit_code': class_unit_code,
         'stock_amount': stock_amount,
         'item_number': item_number,
         'update_date': update_date,
@@ -108,10 +113,14 @@ print('Items saved to CSV file.')
 
 # TO-DO: 
 # Get item data name
-# Change item from Malm to Brimnes dresser
 
 # BUGS:
 # 12/21/21 - stocks are not matching up with what is showing up on the website
+#  -- The cause of this might be the "Update Date" in the API. 
+#  --- The information might not update in real time
+# Zip codes will cut off the beginning 0 (ex: 6511 instead of 06511)
 
 # NOTES: 
 # Burbank = StoreID 399 
+# ClassUnitCodes do not match up with store ID numbers. 
+# The site has bot detection from Akamai
